@@ -1,0 +1,73 @@
+name: Test and deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      refresh_catalog:
+        description: "Re-import recipes from TheMealDB before building"
+        type: boolean
+        default: false
+  schedule:
+    # Weekly catalogue refresh (Mondays 05:17 UTC).
+    - cron: "17 5 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Refresh catalogue from TheMealDB
+        if: github.event_name == 'schedule' || inputs.refresh_catalog
+        env:
+          MEALDB_API_KEY: ${{ secrets.MEALDB_API_KEY }}
+        # A failed import keeps the committed snapshot rather than breaking the site.
+        run: npm run import:mealdb || echo "::warning::Catalogue import failed; building from the committed snapshot."
+
+      - name: Type-check, lint and test
+        run: npm run check
+
+      - name: Build static site
+        env:
+          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: |
+          npm run build
+          touch out/.nojekyll
+
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: out
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

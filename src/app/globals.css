@@ -1,0 +1,298 @@
+@import "tailwindcss";
+
+/*
+ * Mr. Cook design tokens — "warm kitchen": cream paper, tomato, saffron, herb.
+ * Flat colour only (no gradients, glows or glass). Light and dark themes.
+ */
+:root {
+  --bg: #f7f1e6;
+  --surface: #fffbf4;
+  --surface-2: #f1e8d8;
+  --ink: #241f1a;
+  --muted: #645a4f;
+  --line: #e0d4c1;
+  --line-strong: #c9b9a1;
+  --accent: #b23c25;
+  --accent-hover: #962f1b;
+  --on-accent: #ffffff;
+  --herb: #3c6636;
+  --herb-soft: #e3ecd9;
+  --saffron: #e2a23b;
+  --missing: #a2361f;
+  --missing-soft: #fbe9e2;
+  --focus: #1f5fbf;
+  --slice-a: #b23c25;
+  --slice-b: #e2a23b;
+  --slice-c: #3c6636;
+  --slice-d: #6e4a2f;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1613;
+    --surface: #231e1a;
+    --surface-2: #2c2620;
+    --ink: #f3eadd;
+    --muted: #b8aa98;
+    --line: #3a322b;
+    --line-strong: #54493f;
+    --accent: #e5735b;
+    --accent-hover: #f08b75;
+    --on-accent: #1a1613;
+    --herb: #93c387;
+    --herb-soft: #26331f;
+    --saffron: #e9b25a;
+    --missing: #f19a84;
+    --missing-soft: #3a211a;
+    --focus: #8ab4ff;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #1a1613;
+  --surface: #231e1a;
+  --surface-2: #2c2620;
+  --ink: #f3eadd;
+  --muted: #b8aa98;
+  --line: #3a322b;
+  --line-strong: #54493f;
+  --accent: #e5735b;
+  --accent-hover: #f08b75;
+  --on-accent: #1a1613;
+  --herb: #93c387;
+  --herb-soft: #26331f;
+  --saffron: #e9b25a;
+  --missing: #f19a84;
+  --missing-soft: #3a211a;
+  --focus: #8ab4ff;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-herb: var(--herb);
+  --color-herb-soft: var(--herb-soft);
+  --color-saffron: var(--saffron);
+  --color-missing: var(--missing);
+  --color-missing-soft: var(--missing-soft);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-serif, Georgia, serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--saffron);
+  color: #241f1a;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 50;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+@layer components {
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.65rem 1.15rem;
+  border-radius: 999px;
+  font-weight: 600;
+  line-height: 1.1;
+  border: 1.5px solid transparent;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, transform 150ms ease;
+  cursor: pointer;
+  text-align: center;
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+.btn-secondary {
+  background: transparent;
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--ink);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  padding-inline: 0.75rem;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--surface-2);
+}
+
+/* Chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  white-space: nowrap;
+}
+.chip-have {
+  background: var(--herb-soft);
+  border-color: transparent;
+  color: var(--herb);
+  font-weight: 600;
+}
+.chip-pantry {
+  background: transparent;
+  border-color: var(--line-strong);
+  color: var(--muted);
+}
+.chip-missing {
+  background: var(--missing-soft);
+  border: 1px dashed var(--missing);
+  color: var(--missing);
+  font-weight: 600;
+}
+.chip-optional {
+  background: transparent;
+  border: 1px dashed var(--line-strong);
+  color: var(--muted);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+}
+
+.field {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 0.75rem;
+  border: 1.5px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0.55rem 0.85rem;
+}
+.field:focus {
+  border-color: var(--ink);
+  outline: none;
+}
+.field:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.prose-steps li::marker {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-weight: 600;
+  color: var(--accent);
+}
+}
+
+/* The wheel: transform-only animation, disabled for reduced motion. */
+.wheel-rotor {
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.reveal {
+  animation: reveal 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

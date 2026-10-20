@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-10-20T11:33:55.902Z",
+  "source": "TheMealDB",
+  "fetchedRecords": 790,
+  "imported": 790,
+  "skipped": [],
+  "duplicatesRemoved": 0,
+  "ingredients": 911,
+  "aliases": 985,
+  "flagCounts": {
+    "missing-times": 790,
+    "video-unavailable": 34,
+    "missing-measure": 10,
+    "no-video": 204
+  },
+  "withVideo": 586,
+  "withOriginalSource": 753,
+  "withCountry": 790,
+  "videoCheckFailures": 0
+}
