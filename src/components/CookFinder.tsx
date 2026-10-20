@@ -8,6 +8,7 @@ import { useDiscovery } from "@/lib/useDiscovery";
 import { Icon } from "./Icon";
 import { IngredientCombobox, IngredientThumb } from "./IngredientCombobox";
 import { RecipeCard } from "./RecipeCard";
+import { YouTubeButton } from "./YouTubeButton";
 
 const PAGE = 24;
 const SUGGESTIONS: { label: string; ids: string[] }[] = [
@@ -366,6 +367,9 @@ function MatchCard({ match, nameOf, selectedCount }: { match: MatchResult; nameO
           </div>
         )}
       </dl>
+      <div className="mt-4">
+        <YouTubeButton title={match.recipe.title} compact />
+      </div>
     </RecipeCard>
   );
 }

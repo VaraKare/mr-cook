@@ -6,8 +6,9 @@ import { IngredientChecklist } from "@/components/IngredientChecklist";
 import { RecipeCard } from "@/components/RecipeCard";
 import { SaveButton } from "@/components/SaveButton";
 import { VideoEmbed } from "@/components/VideoEmbed";
+import { YouTubeButton } from "@/components/YouTubeButton";
 import { getCatalog, getRecipeBySlug, getRelated } from "@/lib/catalog";
-import { imageVariant, youtubeSearchUrl } from "@/lib/site";
+import { imageVariant } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -125,6 +126,7 @@ export default async function RecipePage({ params }: PageProps<"/recipe/[slug]">
 
             <div className="mt-6 flex flex-wrap gap-2.5">
               <SaveButton recipe={{ id: recipe.id, slug: recipe.slug, title: recipe.title, imageUrl: recipe.imageUrl, country: recipe.country }} />
+              <YouTubeButton title={recipe.title} />
               <Link href="/?spin=1" className="btn btn-primary">
                 <Icon name="spin" size={18} />
                 Spin another
@@ -168,15 +170,10 @@ export default async function RecipePage({ params }: PageProps<"/recipe/[slug]">
                   {recipe.videos.length ? "The video the source linked is no longer available." : "The source doesn’t link a video for this recipe."}
                 </p>
               )}
-              <a
-                href={youtubeSearchUrl(recipe.title)}
-                target="_blank"
-                rel="noopener"
-                className="inline-flex items-center gap-1.5 font-semibold text-accent underline-offset-4 hover:underline"
-              >
-                Search YouTube for more “{recipe.title}” videos
-                <Icon name="external" size={14} />
-              </a>
+              <div className="flex flex-wrap items-center gap-3">
+                <YouTubeButton title={recipe.title} />
+                <span className="text-sm text-muted">See more “{recipe.title}” videos suggested by YouTube.</span>
+              </div>
             </div>
           </section>
 

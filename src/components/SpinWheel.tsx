@@ -12,6 +12,7 @@ import type { RecipeSummary } from "@/lib/types";
 import { useDiscovery } from "@/lib/useDiscovery";
 import { Icon } from "./Icon";
 import { IngredientCombobox } from "./IngredientCombobox";
+import { YouTubeButton } from "./YouTubeButton";
 
 const SIZE = 10;
 const C = 200;
@@ -381,6 +382,7 @@ function ResultCard({
             <Icon name="heart" size={18} filled={saved} className={saved ? "text-accent" : undefined} />
             {saved ? "Saved" : "Save"}
           </button>
+          <YouTubeButton title={recipe.title} />
           <button type="button" className="btn btn-ghost" onClick={onSpin}>
             <Icon name="spin" size={18} />
             Spin again
