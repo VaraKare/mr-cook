@@ -15,7 +15,7 @@ let pending: Promise<DiscoveryIndex> | null = null;
 
 function load(): Promise<DiscoveryIndex> {
   if (!pending) {
-    pending = fetch(asset("/data/discovery.json"), { cache: "force-cache" })
+    pending = fetch(asset("/data/discovery.json"))
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json() as Promise<DiscoveryIndex>;

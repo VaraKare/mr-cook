@@ -90,7 +90,6 @@ export default async function RecipePage({ params }: PageProps<"/recipe/[slug]">
               alt={recipe.title}
               width={700}
               height={700}
-              fetchPriority="high"
               className="aspect-square w-full rounded-[1.75rem] object-cover"
             />
           ) : (
